@@ -10,20 +10,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_15_175508) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_16_084006) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
-  create_table "tenants", force: :cascade do |t|
+  create_table "agencies", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.jsonb "settings", default: {}
+    t.integer "status", default: 0
+    t.string "subdomain", null: false
+    t.datetime "updated_at", null: false
+    t.index ["subdomain"], name: "index_agencies_on_subdomain", unique: true
+  end
+
+  create_table "tenants", force: :cascade do |t|
+    t.bigint "agency_id"
+    t.datetime "created_at", null: false
+    t.boolean "is_agency_tenant", default: false
     t.string "name"
     t.integer "status"
     t.string "subdomain"
     t.datetime "updated_at", null: false
+    t.index ["agency_id"], name: "index_tenants_on_agency_id"
     t.index ["subdomain"], name: "index_tenants_on_subdomain", unique: true
   end
 
   create_table "users", force: :cascade do |t|
+    t.bigint "agency_id"
     t.datetime "created_at", null: false
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -33,10 +47,13 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_15_175508) do
     t.integer "role", default: 3
     t.bigint "tenant_id"
     t.datetime "updated_at", null: false
+    t.index ["agency_id"], name: "index_users_on_agency_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["tenant_id"], name: "index_users_on_tenant_id"
   end
 
+  add_foreign_key "tenants", "agencies"
+  add_foreign_key "users", "agencies"
   add_foreign_key "users", "tenants"
 end

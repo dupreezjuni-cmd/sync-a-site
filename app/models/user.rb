@@ -3,26 +3,37 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   
-  # Add role enum
+  # Role enum
   enum :role, {
     super_admin: 0,
     agency_admin: 1,
-    client_admin: 2,
-    client_user: 3
+    agency_user: 2,
+    client_admin: 3,
+    client_user: 4
   }, default: :client_user
   
-  # Relationships - make sure this matches the column name
+  # Relationships
+  belongs_to :agency, optional: true
   belongs_to :tenant, optional: true
   
   # Validations
   validates :email, presence: true, uniqueness: true
   
-  # Callbacks
-  #  after_initialize :set_default_role, if: :new_record?
+  # Scopes
+  scope :agency_staff, -> { where(role: [:agency_admin, :agency_user]) }
+  scope :client_staff, -> { where(role: [:client_admin, :client_user]) }
   
-  # private
+  # Methods
+  def agency_staff?
+    agency_admin? || agency_user?
+  end
   
-#  def set_default_role
-#     self.role ||= :client_user
-#  end
+  def client_staff?
+    client_admin? || client_user?
+  end
+  
+  # Ensure user belongs to either agency or tenant (or both for super_admin)
+  def belongs_to_agency_or_tenant?
+    agency.present? || tenant.present?
+  end
 end

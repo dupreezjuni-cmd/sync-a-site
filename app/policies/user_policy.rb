@@ -24,8 +24,16 @@ class UserPolicy < ApplicationPolicy
       if user.super_admin?
         scope.all
       elsif user.agency_admin?
+        # Agency admin can see users in their agency
+        scope.where(agency_id: user.agency_id)
+      elsif user.agency_user?
+        # Agency users can only see themselves
+        scope.where(id: user.id)
+      elsif user.client_admin?
+        # Client admin can see users in their tenant
         scope.where(tenant_id: user.tenant_id)
       else
+        # Client users can only see themselves
         scope.where(id: user.id)
       end
     end

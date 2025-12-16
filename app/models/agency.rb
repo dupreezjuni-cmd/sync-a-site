@@ -1,6 +1,6 @@
-class Tenant < ApplicationRecord
+class Agency < ApplicationRecord
   # Relationships
-  belongs_to :agency
+  has_many :tenants, dependent: :destroy
   has_many :users, dependent: :destroy
   
   # Validations
@@ -16,7 +16,7 @@ class Tenant < ApplicationRecord
     suspended: 1,
     pending: 2
   }, default: :active
-
-  # Flag to identify agency tenants
-  attribute :is_agency_tenant, :boolean, default: false
+  
+  # Settings accessors
+  store_accessor :settings, :plan, :max_tenants, :max_users, :features
 end

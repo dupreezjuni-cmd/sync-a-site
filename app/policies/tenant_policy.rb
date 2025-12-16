@@ -4,7 +4,9 @@ class TenantPolicy < ApplicationPolicy
   end
 
   def show?
-    user.super_admin? || user.agency_admin? || record.id == user.tenant_id
+    user.super_admin? || 
+    (user.agency_admin? && user.agency == record.agency) ||
+    (user.client_staff? && record == user.tenant)
   end
 
   def create?
@@ -24,6 +26,8 @@ class TenantPolicy < ApplicationPolicy
       if user.super_admin?
         scope.all
       elsif user.agency_admin?
+        scope.where(agency_id: user.agency_id)
+      elsif user.client_staff?
         scope.where(id: user.tenant_id)
       else
         scope.none
