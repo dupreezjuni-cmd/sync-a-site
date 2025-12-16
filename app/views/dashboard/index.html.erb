@@ -1,0 +1,66 @@
+<div class="min-h-screen bg-gray-100">
+  <nav class="bg-white shadow-sm border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16">
+        <div class="flex items-center">
+          <h1 class="text-xl font-semibold text-gray-900">Sync-a-Site Dashboard</h1>
+        </div>
+        <div class="flex items-center space-x-4">
+          <span class="text-sm text-gray-700">
+            <%= current_user.email %> (<%= current_user.role %>)
+          </span>
+          <%= link_to "Sign Out", destroy_user_session_path, data: { turbo_method: :delete },
+              class: "px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900" %>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="py-10">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+      <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="p-6 bg-white border-b border-gray-200">
+          <h2 class="text-2xl font-bold mb-6">Welcome, <%= current_user.email %>!</h2>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-blue-50 p-6 rounded-lg">
+              <h3 class="text-lg font-semibold mb-2">Your Information</h3>
+              <ul class="space-y-2">
+                <li><strong>Email:</strong> <%= current_user.email %></li>
+                <li><strong>Role:</strong> <%= current_user.role %></li>
+                <li><strong>Tenant:</strong> <%= current_user.tenant&.name || "No tenant assigned" %></li>
+                <li><strong>Status:</strong> Active</li>
+              </ul>
+            </div>
+            
+            <div class="bg-green-50 p-6 rounded-lg">
+              <h3 class="text-lg font-semibold mb-2">Quick Actions</h3>
+              <div class="space-y-3">
+                <% if current_user.super_admin? || current_user.agency_admin? %>
+                  <%= link_to "Manage Clients", "#", 
+                      class: "block w-full text-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700" %>
+                  <%= link_to "View Reports", "#", 
+                      class: "block w-full text-center px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700" %>
+                <% end %>
+                
+                <% if current_user.client_admin? || current_user.client_user? %>
+                  <%= link_to "My Website", "#", 
+                      class: "block w-full text-center px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700" %>
+                  <%= link_to "Edit Content", "#", 
+                      class: "block w-full text-center px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700" %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+          
+          <div class="mt-8">
+            <h3 class="text-xl font-semibold mb-4">Getting Started</h3>
+            <p class="text-gray-600">
+              Welcome to Sync-a-Site! This is your dashboard. Depending on your role, you'll have access to different features.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
