@@ -1,6 +1,12 @@
 Rails.application.routes.draw do
-  # Simple Devise routes without deprecated syntax
-  devise_for :users
+  # Devise routes with custom controllers
+  devise_for :users, controllers: {
+    sessions: 'users/sessions',
+    registrations: 'users/registrations',
+    passwords: 'users/passwords',
+    confirmations: 'users/confirmations',
+    unlocks: 'users/unlocks'
+  }
   
   # Root path
   root "home#index"
