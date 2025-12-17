@@ -1,0 +1,12 @@
+/* Custom sidebar styles */
+.sidebar-link {
+  @apply flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200;
+}
+
+.sidebar-link:hover {
+  @apply bg-blue-700 text-white;
+}
+
+.sidebar-link.active {
+  @apply bg-blue-600 text-white;
+}

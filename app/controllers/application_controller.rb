@@ -19,6 +19,8 @@ class ApplicationController < ActionController::Base
   # Rescue from Pundit authorization errors
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
   
+  helper_method :feature_enabled?
+  
   private
   
   def skip_pundit?
@@ -44,5 +46,11 @@ class ApplicationController < ActionController::Base
   def user_not_authorized
     flash[:alert] = "You are not authorized to perform this action."
     redirect_back(fallback_location: root_path)
+  end
+  
+  def require_feature(feature_key)
+    unless feature_enabled?(feature_key)
+      redirect_to dashboard_path, alert: "This feature is not enabled for your account."
+    end
   end
 end

@@ -15,8 +15,9 @@
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
-    <!-- Use the local tailwindcss-rails gem build -->
-    <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+    <!-- Load Tailwind CSS -->
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application.tailwind", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
     
     <!-- Inter Font -->
@@ -31,10 +32,8 @@
 
   <body class="antialiased">
     <% if user_signed_in? %>
-      <!-- Signed-in users see the full sidebar layout -->
       <%= render 'layouts/sidebar' %>
     <% else %>
-      <!-- Non-signed-in users (login, signup, landing) see a centered layout -->
       <main class="min-h-screen bg-gradient-to-br from-blue-50 to-gray-100 flex items-center justify-center p-4">
         <%= yield %>
       </main>

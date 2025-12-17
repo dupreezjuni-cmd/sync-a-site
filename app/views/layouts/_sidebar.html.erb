@@ -1,0 +1,177 @@
+<%# app/views/layouts/_sidebar.html.erb %>
+<div class="flex h-screen bg-gray-50">
+  <!-- Sidebar -->
+  <aside class="w-64 bg-gradient-to-b from-blue-900 to-blue-800 text-white flex flex-col">
+    <!-- Logo -->
+    <div class="p-6 border-b border-blue-800">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 bg-blue-500 rounded-xl flex items-center justify-center shadow-lg">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-xl font-bold">Sync-a-Site</h1>
+          <p class="text-xs text-blue-300">Agency Platform</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- User Info -->
+    <div class="p-6 border-b border-blue-800">
+      <div class="flex items-center space-x-3">
+        <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center shadow">
+          <span class="font-bold text-lg"><%= current_user.email[0].upcase %></span>
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="font-medium truncate"><%= current_user.email %></p>
+          <p class="text-sm text-blue-300">
+            <span class="px-2 py-1 bg-blue-800 rounded-full text-xs">
+              <%= current_user.role.titleize %>
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="flex-1 p-4 overflow-y-auto">
+      <ul class="space-y-2">
+        <!-- Dashboard -->
+        <li>
+          <%= link_to dashboard_path, class: "flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-blue-700 transition-colors #{'bg-blue-700' if current_page?(dashboard_path)}" do %>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+            <span>Dashboard</span>
+          <% end %>
+        </li>
+
+        <!-- Admin Section -->
+        <% if current_user.super_admin? || current_user.agency_admin? %>
+          <li class="mt-6">
+            <p class="px-4 py-2 text-xs font-semibold text-blue-400 uppercase tracking-wider">Admin Panel</p>
+            <ul class="mt-2 space-y-1">
+              <li>
+                <%= link_to admin_features_path, class: "flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-blue-700 transition-colors #{'bg-blue-700' if current_page?(admin_features_path)}" do %>
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                  </svg>
+                  <span>Feature Registry</span>
+                <% end %>
+              </li>
+              <li>
+                <%= link_to users_path, class: "flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-blue-700 transition-colors #{'bg-blue-700' if current_page?(users_path)}" do %>
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5 0a6 6 0 00-9 5.197" />
+                  </svg>
+                  <span>User Management</span>
+                <% end %>
+              </li>
+              <li>
+                <%= link_to tenants_path, class: "flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-blue-700 transition-colors #{'bg-blue-700' if current_page?(tenants_path)}" do %>
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                  </svg>
+                  <span>Tenant Management</span>
+                <% end %>
+              </li>
+              <li>
+                <a href="#" class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  <span>System Settings</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+        <% end %>
+
+        <!-- Enabled Features -->
+        <% if current_user.tenant && current_user.tenant.enabled_features.any? %>
+          <li class="mt-6">
+            <p class="px-4 py-2 text-xs font-semibold text-blue-400 uppercase tracking-wider">Enabled Features</p>
+            <ul class="mt-2 space-y-1">
+              <% current_user.tenant.enabled_features.includes(:feature).each do |tenant_feature| %>
+                <% feature = tenant_feature.feature %>
+                <% if !feature.is_core && feature.key != 'dashboard' %>
+                  <li>
+                    <a href="#" class="flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                      <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                      <span><%= feature.name %></span>
+                    </a>
+                  </li>
+                <% end %>
+              <% end %>
+            </ul>
+          </li>
+        <% end %>
+      </ul>
+    </nav>
+
+    <!-- Sign Out -->
+    <div class="p-4 border-t border-blue-800">
+      <%= button_to destroy_user_session_path, method: :delete, class: "flex items-center space-x-3 px-4 py-3 rounded-lg hover:bg-blue-700 transition-colors w-full text-left" do %>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+        </svg>
+        <span>Sign Out</span>
+      <% end %>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="flex-1 flex flex-col overflow-hidden">
+    <!-- Top Bar -->
+    <header class="bg-white border-b border-gray-200 shadow-sm">
+      <div class="px-6 py-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h1 class="text-2xl font-bold text-gray-800"><%= yield(:page_title) || 'Dashboard' %></h1>
+            <p class="text-gray-600 mt-1"><%= yield(:page_description) || 'Welcome to your dashboard' %></p>
+          </div>
+          <div class="flex items-center space-x-4">
+            <!-- Notifications -->
+            <button class="relative p-2 text-gray-600 hover:text-blue-600 rounded-lg hover:bg-gray-100">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+              </svg>
+              <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+            </button>
+
+            <!-- User Menu -->
+            <div class="relative group">
+              <button class="flex items-center space-x-3 focus:outline-none">
+                <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white">
+                  <span class="font-bold"><%= current_user.email[0].upcase %></span>
+                </div>
+                <div class="text-left hidden md:block">
+                  <p class="text-sm font-medium text-gray-800"><%= current_user.email %></p>
+                  <p class="text-xs text-gray-600"><%= current_user.role.titleize %></p>
+                </div>
+                <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              
+              <!-- Dropdown -->
+              <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 hidden group-hover:block z-10">
+                <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-blue-50">My Profile</a>
+                <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-blue-50">Account Settings</a>
+                <div class="border-t my-1"></div>
+                <%= button_to "Sign Out", destroy_user_session_path, method: :delete, class: "block w-full text-left px-4 py-2 text-gray-700 hover:bg-blue-50" %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page Content -->
+    <main class="flex-1 overflow-y-auto bg-gray-50 p-6">
+      <%= yield %>
+    </main>
+  </div>
+</div>

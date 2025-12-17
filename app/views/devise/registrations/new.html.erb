@@ -1,29 +1,97 @@
-<h2>Sign up</h2>
+<div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+  <div class="sm:mx-auto sm:w-full sm:max-w-md">
+    <div class="bg-white rounded-2xl shadow-xl p-10 w-full">
+      <!-- Logo -->
+      <div class="text-center mb-10">
+        <div class="inline-flex items-center justify-center w-20 h-20 bg-indigo-600 rounded-2xl mb-6 shadow-lg">
+          <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+          </svg>
+        </div>
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">Create account</h1>
+        <p class="text-gray-600 text-lg">Get started with Sync-a-Site</p>
+      </div>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+      <!-- Form - Single column now -->
+      <div>
+        <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "space-y-6" }) do |f| %>
+          <%= render "devise/shared/error_messages", resource: resource %>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+          <!-- Email -->
+          <div>
+            <%= f.label :email, class: "block text-sm font-medium text-gray-700" %>
+            <div class="mt-1 relative rounded-md shadow-sm">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <%= f.email_field :email, autofocus: true, autocomplete: "email", 
+                  class: "block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:outline-none transition-colors", 
+                  placeholder: "you@example.com" %>
+            </div>
+          </div>
+
+          <!-- Password -->
+          <div>
+            <%= f.label :password, class: "block text-sm font-medium text-gray-700" %>
+            <% if @minimum_password_length %>
+              <p class="text-xs text-gray-500 mt-1">(<%= @minimum_password_length %> characters minimum)</p>
+            <% end %>
+            <div class="mt-1 relative rounded-md shadow-sm">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+              </div>
+              <%= f.password_field :password, autocomplete: "new-password", 
+                  class: "block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:outline-none transition-colors", 
+                  placeholder: "••••••••" %>
+            </div>
+          </div>
+
+          <!-- Password confirmation -->
+          <div>
+            <%= f.label :password_confirmation, class: "block text-sm font-medium text-gray-700" %>
+            <div class="mt-1 relative rounded-md shadow-sm">
+              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+              </div>
+              <%= f.password_field :password_confirmation, autocomplete: "new-password", 
+                  class: "block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:outline-none transition-colors", 
+                  placeholder: "••••••••" %>
+            </div>
+          </div>
+
+          <!-- Submit button -->
+          <div class="pt-2">
+            <%= f.submit "Sign up", 
+                class: "w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors cursor-pointer" %>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- Demo Credentials -->
+      <div class="mt-8 pt-8 border-t border-gray-200">
+        <h4 class="text-sm font-medium text-gray-900 mb-3">Demo Credentials:</h4>
+        <div class="space-y-2 text-xs text-gray-600">
+          <div><strong>Super Admin:</strong> admin@sync-a-site.com / password123</div>
+          <div><strong>Agency Admin:</strong> agency@sync-a-site.com / password123</div>
+          <div><strong>Agency User:</strong> staff@sync-a-site.com / password123</div>
+          <div><strong>Client Admin:</strong> client@demo.com / password123</div>
+          <div><strong>Client User:</strong> user@demo.com / password123</div>
+        </div>
+      </div>
+
+      <!-- Login link -->
+      <div class="mt-8 pt-6 border-t border-gray-200 text-center">
+        <p class="text-sm text-gray-600">
+          Already have an account?
+          <%= link_to "Log in", new_session_path(resource_name), class: "font-medium text-indigo-600 hover:text-indigo-800" %>
+        </p>
+      </div>
+    </div>
   </div>
-
-  <div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Sign up" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>

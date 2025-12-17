@@ -1,7 +1,12 @@
+# db/seeds.rb
 puts "=== Sync-a-Site Seeding ==="
 puts "Creating initial data..."
 
-# Clear existing data
+# First, create/update features registry
+puts "Step 0: Creating/Updating Features Registry..."
+require_relative 'seeds/features'
+
+# Clear existing data (but NOT features, since they're registry data)
 User.destroy_all if User.any?
 Tenant.destroy_all if Tenant.any?
 Agency.destroy_all if Agency.any?
@@ -140,6 +145,31 @@ rescue => e
   puts "❌ Failed to create client user: #{e.message}"
 end
 
+puts "Step 6: Enabling Core Features for Tenants..."
+
+begin
+  # Enable core features for agency tenant
+  puts "Enabling core features for agency tenant..."
+  core_features = Feature.where(is_core: true)
+  core_features.each do |feature|
+    agency_tenant.enable_feature(feature.key, feature.default_config)
+    puts "  ✅ Enabled #{feature.name} for agency tenant"
+  end
+rescue => e
+  puts "❌ Failed to enable core features for agency tenant: #{e.message}"
+end
+
+begin
+  # Enable core features for demo tenant
+  puts "Enabling core features for demo tenant..."
+  core_features.each do |feature|
+    demo_tenant.enable_feature(feature.key, feature.default_config)
+    puts "  ✅ Enabled #{feature.name} for demo tenant"
+  end
+rescue => e
+  puts "❌ Failed to enable core features for demo tenant: #{e.message}"
+end
+
 puts "\n=== Login Credentials ==="
 puts "Super Admin: admin@sync-a-site.com / password123"
 puts "Agency Admin: agency@sync-a-site.com / password123"
@@ -150,4 +180,7 @@ puts "\n=== Final Counts ==="
 puts "Agencies: #{Agency.count}"
 puts "Tenants: #{Tenant.count}"
 puts "Users: #{User.count}"
+puts "Features: #{Feature.count}"
+puts "Enabled Features (agency): #{agency_tenant.enabled_features.count}"
+puts "Enabled Features (demo): #{demo_tenant.enabled_features.count}"
 puts "\nSeed data created successfully!"

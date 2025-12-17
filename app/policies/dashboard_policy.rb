@@ -1,12 +1,14 @@
-class DashboardPolicy < ApplicationPolicy
-  attr_reader :user
+# app/policies/dashboard_policy.rb
+class DashboardPolicy
+  attr_reader :user, :dashboard
 
-  def initialize(user, record)
+  def initialize(user, dashboard)
     @user = user
-    @record = record
+    @dashboard = dashboard
   end
 
   def index?
-    true # All authenticated users can view dashboard
+    # All logged-in users can access the dashboard
+    user.present?
   end
 end
